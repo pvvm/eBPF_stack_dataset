@@ -1,0 +1,51 @@
+
+ebpf_programs/object/optimized/prog21.bpf.o:	file format elf64-bpf
+
+Disassembly of section .text:
+
+0000000000000000 <function5>:
+; __u32 function5(__u32 value) {
+       0:	bf 10 00 00 00 00 00 00	r0 = r1
+;     value = value + 1;
+       1:	07 00 00 00 01 00 00 00	r0 += 1
+;     return value;
+       2:	95 00 00 00 00 00 00 00	exit
+
+0000000000000018 <function4>:
+; __u32 function4(__u32 value) {
+       3:	bf 10 00 00 00 00 00 00	r0 = r1
+;     value = value + 1;
+       4:	07 00 00 00 01 00 00 00	r0 += 1
+;     return value;
+       5:	95 00 00 00 00 00 00 00	exit
+
+0000000000000030 <function3>:
+; __u32 function3(__u32 value) {
+       6:	bf 10 00 00 00 00 00 00	r0 = r1
+;     value = value + 1;
+       7:	07 00 00 00 01 00 00 00	r0 += 1
+;     return value;
+       8:	95 00 00 00 00 00 00 00	exit
+
+0000000000000048 <function2>:
+; __u32 function2(__u32 value) {
+       9:	bf 10 00 00 00 00 00 00	r0 = r1
+;     value = value + 1;
+      10:	07 00 00 00 01 00 00 00	r0 += 1
+;     return value;
+      11:	95 00 00 00 00 00 00 00	exit
+
+0000000000000060 <function1>:
+; __u32 function1(__u32 value) {
+      12:	bf 10 00 00 00 00 00 00	r0 = r1
+;     value = value + 1;
+      13:	07 00 00 00 01 00 00 00	r0 += 1
+;     return value;
+      14:	95 00 00 00 00 00 00 00	exit
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+;     return XDP_DROP; // Drop all packets
+       0:	b7 00 00 00 01 00 00 00	r0 = 1
+       1:	95 00 00 00 00 00 00 00	exit

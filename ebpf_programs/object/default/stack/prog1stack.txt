@@ -1,0 +1,11 @@
+
+ebpf_programs/object/default/prog1.bpf.o:	file format elf64-bpf
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+; int xdp_prog(struct xdp_md *ctx) {
+       0:	7b 1a f8 ff 00 00 00 00	*(u64 *)(r10 - 8) = r1
+       1:	b7 00 00 00 01 00 00 00	r0 = 1
+;     return XDP_DROP; // Drop all packets
+       2:	95 00 00 00 00 00 00 00	exit

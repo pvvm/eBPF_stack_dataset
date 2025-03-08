@@ -1,0 +1,45 @@
+
+ebpf_programs/object/optimized/prog27.bpf.o:	file format elf64-bpf
+
+Disassembly of section .text:
+
+0000000000000000 <function4>:
+; __u32 function4(__u32 trying) {
+       0:	bf 10 00 00 00 00 00 00	r0 = r1
+       1:	67 01 00 00 20 00 00 00	r1 <<= 32
+       2:	77 01 00 00 20 00 00 00	r1 >>= 32
+       3:	b7 02 00 00 0a 00 00 00	r2 = 10
+       4:	2d 12 01 00 00 00 00 00	if r2 > r1 goto +1 <LBB0_2>
+       5:	b7 00 00 00 00 00 00 00	r0 = 0
+
+0000000000000030 <LBB0_2>:
+; }
+       6:	95 00 00 00 00 00 00 00	exit
+
+0000000000000038 <helping>:
+; __u32 helping(__u32 value) {
+       7:	bf 10 00 00 00 00 00 00	r0 = r1
+;     value = value + 1;
+       8:	07 00 00 00 01 00 00 00	r0 += 1
+;     return value;
+       9:	95 00 00 00 00 00 00 00	exit
+
+0000000000000050 <cool>:
+; __u32 cool(__u32 value) {
+      10:	bf 10 00 00 00 00 00 00	r0 = r1
+;     value = value + 1;
+      11:	07 00 00 00 01 00 00 00	r0 += 1
+;     return value;
+      12:	95 00 00 00 00 00 00 00	exit
+
+0000000000000068 <helping_hand>:
+;     return xandao;
+      13:	b7 00 00 00 02 00 00 00	r0 = 2
+      14:	95 00 00 00 00 00 00 00	exit
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+;     return XDP_DROP; // Drop all packets
+       0:	b7 00 00 00 01 00 00 00	r0 = 1
+       1:	95 00 00 00 00 00 00 00	exit

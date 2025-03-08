@@ -1,0 +1,57 @@
+
+ebpf_programs/object/optimized/prog32.bpf.o:	file format elf64-bpf
+
+Disassembly of section .text:
+
+0000000000000000 <updating_map>:
+;     *value = *value + 1;
+       0:	61 13 00 00 00 00 00 00	r3 = *(u32 *)(r1 + 0)
+       1:	07 03 00 00 01 00 00 00	r3 += 1
+       2:	63 31 00 00 00 00 00 00	*(u32 *)(r1 + 0) = r3
+;     value2->testing = *value;
+       3:	63 32 00 00 00 00 00 00	*(u32 *)(r2 + 0) = r3
+;     value2->testing2 = value2->testing * (*value);
+       4:	61 11 00 00 00 00 00 00	r1 = *(u32 *)(r1 + 0)
+       5:	2f 31 00 00 00 00 00 00	r1 *= r3
+       6:	63 12 04 00 00 00 00 00	*(u32 *)(r2 + 4) = r1
+; }
+       7:	95 00 00 00 00 00 00 00	exit
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+;     __u32 data_end = ctx->data_end;
+       0:	61 12 04 00 00 00 00 00	r2 = *(u32 *)(r1 + 4)
+;     __u32 data_start = ctx->data;
+       1:	61 11 00 00 00 00 00 00	r1 = *(u32 *)(r1 + 0)
+;     if(data_end > data_start) {
+       2:	3d 21 14 00 00 00 00 00	if r1 >= r2 goto +20 <LBB1_2>
+       3:	b7 01 00 00 00 00 00 00	r1 = 0
+;         __u32 key = 0;
+       4:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+       5:	bf a6 00 00 00 00 00 00	r6 = r10
+       6:	07 06 00 00 fc ff ff ff	r6 += -4
+;         __u32* value = bpf_map_lookup_elem(&xdp_map, &key);
+       7:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+       9:	bf 62 00 00 00 00 00 00	r2 = r6
+      10:	85 00 00 00 01 00 00 00	call 1
+      11:	bf 07 00 00 00 00 00 00	r7 = r0
+;         struct value *value2 = bpf_map_lookup_elem(&map_value, &key);
+      12:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      14:	bf 62 00 00 00 00 00 00	r2 = r6
+      15:	85 00 00 00 01 00 00 00	call 1
+;     *value = *value + 1;
+      16:	61 71 00 00 00 00 00 00	r1 = *(u32 *)(r7 + 0)
+      17:	07 01 00 00 01 00 00 00	r1 += 1
+      18:	63 17 00 00 00 00 00 00	*(u32 *)(r7 + 0) = r1
+;     value2->testing = *value;
+      19:	63 10 00 00 00 00 00 00	*(u32 *)(r0 + 0) = r1
+;     value2->testing2 = value2->testing * (*value);
+      20:	61 72 00 00 00 00 00 00	r2 = *(u32 *)(r7 + 0)
+      21:	2f 12 00 00 00 00 00 00	r2 *= r1
+      22:	63 20 04 00 00 00 00 00	*(u32 *)(r0 + 4) = r2
+
+00000000000000b8 <LBB1_2>:
+;     return XDP_DROP; // Drop all packets
+      23:	b7 00 00 00 01 00 00 00	r0 = 1
+      24:	95 00 00 00 00 00 00 00	exit

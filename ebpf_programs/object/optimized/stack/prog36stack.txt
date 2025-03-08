@@ -1,0 +1,18 @@
+
+ebpf_programs/object/optimized/prog36.bpf.o:	file format elf64-bpf
+
+Disassembly of section .text:
+
+0000000000000000 <multiply_ten>:
+; __u32 multiply_ten(__u32 number) {
+       0:	bf 10 00 00 00 00 00 00	r0 = r1
+;     return number * 10;
+       1:	27 00 00 00 0a 00 00 00	r0 *= 10
+       2:	95 00 00 00 00 00 00 00	exit
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+;     return XDP_DROP; // Drop all packets
+       0:	b7 00 00 00 01 00 00 00	r0 = 1
+       1:	95 00 00 00 00 00 00 00	exit

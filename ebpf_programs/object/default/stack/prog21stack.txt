@@ -1,0 +1,87 @@
+
+ebpf_programs/object/default/prog21.bpf.o:	file format elf64-bpf
+
+Disassembly of section .text:
+
+0000000000000000 <function5>:
+; __u32 function5(__u32 value) {
+       0:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     value = value + 1;
+       1:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+       2:	07 01 00 00 01 00 00 00	r1 += 1
+       3:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     return value;
+       4:	61 a0 fc ff 00 00 00 00	r0 = *(u32 *)(r10 - 4)
+       5:	95 00 00 00 00 00 00 00	exit
+
+0000000000000030 <function4>:
+; __u32 function4(__u32 value) {
+       6:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     value = value + 1;
+       7:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+       8:	07 01 00 00 01 00 00 00	r1 += 1
+       9:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     function5(value);
+      10:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+      11:	85 10 00 00 ff ff ff ff	call -1
+;     return value;
+      12:	61 a0 fc ff 00 00 00 00	r0 = *(u32 *)(r10 - 4)
+      13:	95 00 00 00 00 00 00 00	exit
+
+0000000000000070 <function3>:
+; __u32 function3(__u32 value) {
+      14:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     value = value + 1;
+      15:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+      16:	07 01 00 00 01 00 00 00	r1 += 1
+      17:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     function4(value);
+      18:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+      19:	85 10 00 00 ff ff ff ff	call -1
+;     return value;
+      20:	61 a0 fc ff 00 00 00 00	r0 = *(u32 *)(r10 - 4)
+      21:	95 00 00 00 00 00 00 00	exit
+
+00000000000000b0 <function2>:
+; __u32 function2(__u32 value) {
+      22:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     value = value + 1;
+      23:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+      24:	07 01 00 00 01 00 00 00	r1 += 1
+      25:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     function3(value);
+      26:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+      27:	85 10 00 00 ff ff ff ff	call -1
+;     return value;
+      28:	61 a0 fc ff 00 00 00 00	r0 = *(u32 *)(r10 - 4)
+      29:	95 00 00 00 00 00 00 00	exit
+
+00000000000000f0 <function1>:
+; __u32 function1(__u32 value) {
+      30:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     value = value + 1;
+      31:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+      32:	07 01 00 00 01 00 00 00	r1 += 1
+      33:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     function2(value);
+      34:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+      35:	85 10 00 00 ff ff ff ff	call -1
+;     return value;
+      36:	61 a0 fc ff 00 00 00 00	r0 = *(u32 *)(r10 - 4)
+      37:	95 00 00 00 00 00 00 00	exit
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+; int xdp_prog(struct xdp_md *ctx) {
+       0:	7b 1a f8 ff 00 00 00 00	*(u64 *)(r10 - 8) = r1
+       1:	b7 01 00 00 01 00 00 00	r1 = 1
+;     __u32 value = 1;
+       2:	7b 1a e8 ff 00 00 00 00	*(u64 *)(r10 - 24) = r1
+       3:	63 1a f4 ff 00 00 00 00	*(u32 *)(r10 - 12) = r1
+;     function1(value);
+       4:	61 a1 f4 ff 00 00 00 00	r1 = *(u32 *)(r10 - 12)
+       5:	85 10 00 00 ff ff ff ff	call -1
+;     return XDP_DROP; // Drop all packets
+       6:	79 a0 e8 ff 00 00 00 00	r0 = *(u64 *)(r10 - 24)
+       7:	95 00 00 00 00 00 00 00	exit

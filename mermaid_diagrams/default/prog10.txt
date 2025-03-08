@@ -1,0 +1,8 @@
+graph TD
+    A[ <b> xdp_prog </b>
+    <br> ctx -> 8 <br>
+    this -> 4 <br>
+    value -> 1 + 3 <br>
+    testing -> 4 <br>
+    a -> 1 <br>
+    Total: 21 ]

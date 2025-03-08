@@ -1,0 +1,34 @@
+
+ebpf_programs/object/default/prog24.bpf.o:	file format elf64-bpf
+
+Disassembly of section .text:
+
+0000000000000000 <function1>:
+; __u32 function1(__u32 value) {
+       0:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+       1:	b7 01 00 00 02 00 00 00	r1 = 2
+;     __u8 xandao = 2;
+       2:	73 1a fb ff 00 00 00 00	*(u8 *)(r10 - 5) = r1
+;     value = value + 1;
+       3:	61 a1 fc ff 00 00 00 00	r1 = *(u32 *)(r10 - 4)
+       4:	07 01 00 00 01 00 00 00	r1 += 1
+       5:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     return xandao;
+       6:	71 a0 fb ff 00 00 00 00	r0 = *(u8 *)(r10 - 5)
+       7:	95 00 00 00 00 00 00 00	exit
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+; int xdp_prog(struct xdp_md *ctx) {
+       0:	7b 1a f8 ff 00 00 00 00	*(u64 *)(r10 - 8) = r1
+       1:	b7 01 00 00 01 00 00 00	r1 = 1
+;     __u32 value = 1;
+       2:	7b 1a e8 ff 00 00 00 00	*(u64 *)(r10 - 24) = r1
+       3:	63 1a f4 ff 00 00 00 00	*(u32 *)(r10 - 12) = r1
+;     function1(value);
+       4:	61 a1 f4 ff 00 00 00 00	r1 = *(u32 *)(r10 - 12)
+       5:	85 10 00 00 ff ff ff ff	call -1
+;     return XDP_DROP; // Drop all packets
+       6:	79 a0 e8 ff 00 00 00 00	r0 = *(u64 *)(r10 - 24)
+       7:	95 00 00 00 00 00 00 00	exit

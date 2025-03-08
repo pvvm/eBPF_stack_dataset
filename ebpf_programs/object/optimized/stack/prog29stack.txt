@@ -1,0 +1,29 @@
+
+ebpf_programs/object/optimized/prog29.bpf.o:	file format elf64-bpf
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+;     __u32 data_end = ctx->data_end;
+       0:	61 12 04 00 00 00 00 00	r2 = *(u32 *)(r1 + 4)
+;     __u32 data_start = ctx->data;
+       1:	61 11 00 00 00 00 00 00	r1 = *(u32 *)(r1 + 0)
+;     if(data_end > data_start) {
+       2:	3d 21 0a 00 00 00 00 00	if r1 >= r2 goto +10 <LBB0_2>
+       3:	b7 01 00 00 00 00 00 00	r1 = 0
+;         __u32 key = 0;
+       4:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+       5:	bf a2 00 00 00 00 00 00	r2 = r10
+       6:	07 02 00 00 fc ff ff ff	r2 += -4
+;         __u32* value = bpf_map_lookup_elem(&xdp_map, &key);
+       7:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+       9:	85 00 00 00 01 00 00 00	call 1
+;         *value = *value + 1;
+      10:	61 01 00 00 00 00 00 00	r1 = *(u32 *)(r0 + 0)
+      11:	07 01 00 00 01 00 00 00	r1 += 1
+      12:	63 10 00 00 00 00 00 00	*(u32 *)(r0 + 0) = r1
+
+0000000000000068 <LBB0_2>:
+;     return XDP_DROP; // Drop all packets
+      13:	b7 00 00 00 01 00 00 00	r0 = 1
+      14:	95 00 00 00 00 00 00 00	exit

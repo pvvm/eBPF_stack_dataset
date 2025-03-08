@@ -1,0 +1,48 @@
+
+ebpf_programs/object/default/prog29.bpf.o:	file format elf64-bpf
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+; int xdp_prog(struct xdp_md *ctx) {
+       0:	7b 1a f8 ff 00 00 00 00	*(u64 *)(r10 - 8) = r1
+;     __u32 data_start = ctx->data;
+       1:	79 a1 f8 ff 00 00 00 00	r1 = *(u64 *)(r10 - 8)
+       2:	61 11 00 00 00 00 00 00	r1 = *(u32 *)(r1 + 0)
+       3:	63 1a f4 ff 00 00 00 00	*(u32 *)(r10 - 12) = r1
+;     __u32 data_end = ctx->data_end;
+       4:	79 a1 f8 ff 00 00 00 00	r1 = *(u64 *)(r10 - 8)
+       5:	61 11 04 00 00 00 00 00	r1 = *(u32 *)(r1 + 4)
+       6:	63 1a f0 ff 00 00 00 00	*(u32 *)(r10 - 16) = r1
+;     if(data_end > data_start) {
+       7:	61 a2 f0 ff 00 00 00 00	r2 = *(u32 *)(r10 - 16)
+       8:	61 a1 f4 ff 00 00 00 00	r1 = *(u32 *)(r10 - 12)
+       9:	3d 21 11 00 00 00 00 00	if r1 >= r2 goto +17 <LBB0_2>
+      10:	05 00 00 00 00 00 00 00	goto +0 <LBB0_1>
+
+0000000000000058 <LBB0_1>:
+      11:	b7 01 00 00 00 00 00 00	r1 = 0
+;         __u32 key = 0;
+      12:	63 1a ec ff 00 00 00 00	*(u32 *)(r10 - 20) = r1
+;         __u32* value = bpf_map_lookup_elem(&xdp_map, &key);
+      13:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      15:	79 13 00 00 00 00 00 00	r3 = *(u64 *)(r1 + 0)
+      16:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      18:	bf a2 00 00 00 00 00 00	r2 = r10
+;         __u32 key = 0;
+      19:	07 02 00 00 ec ff ff ff	r2 += -20
+;         __u32* value = bpf_map_lookup_elem(&xdp_map, &key);
+      20:	8d 00 00 00 03 00 00 00	callx r3
+      21:	7b 0a e0 ff 00 00 00 00	*(u64 *)(r10 - 32) = r0
+;         *value = *value + 1;
+      22:	79 a2 e0 ff 00 00 00 00	r2 = *(u64 *)(r10 - 32)
+      23:	61 21 00 00 00 00 00 00	r1 = *(u32 *)(r2 + 0)
+      24:	07 01 00 00 01 00 00 00	r1 += 1
+      25:	63 12 00 00 00 00 00 00	*(u32 *)(r2 + 0) = r1
+;     }
+      26:	05 00 00 00 00 00 00 00	goto +0 <LBB0_2>
+
+00000000000000d8 <LBB0_2>:
+      27:	b7 00 00 00 01 00 00 00	r0 = 1
+;     return XDP_DROP; // Drop all packets
+      28:	95 00 00 00 00 00 00 00	exit

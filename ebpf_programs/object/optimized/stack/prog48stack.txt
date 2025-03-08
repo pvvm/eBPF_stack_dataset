@@ -1,0 +1,70 @@
+
+ebpf_programs/object/optimized/prog48.bpf.o:	file format elf64-bpf
+
+Disassembly of section xdp:
+
+0000000000000000 <lock_map>:
+;     int cpu = bpf_get_smp_processor_id();
+       0:	85 00 00 00 08 00 00 00	call 8
+       1:	bf 07 00 00 00 00 00 00	r7 = r0
+;     __u64 arrival_time = bpf_ktime_get_ns();
+       2:	85 00 00 00 05 00 00 00	call 5
+       3:	bf 06 00 00 00 00 00 00	r6 = r0
+       4:	b7 01 00 00 00 00 00 00	r1 = 0
+       5:	63 1a e8 ff 00 00 00 00	*(u32 *)(r10 - 24) = r1
+       6:	bf a2 00 00 00 00 00 00	r2 = r10
+       7:	07 02 00 00 e8 ff ff ff	r2 += -24
+;     struct map_locked_value *lock_value = bpf_map_lookup_elem(&lock_array, &key);
+       8:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      10:	85 00 00 00 01 00 00 00	call 1
+      11:	bf 08 00 00 00 00 00 00	r8 = r0
+;     if(!lock_value) {
+      12:	15 08 09 00 00 00 00 00	if r8 == 0 goto +9 <LBB0_2>
+;     bpf_spin_lock(&lock_value->lock);
+      13:	bf 89 00 00 00 00 00 00	r9 = r8
+      14:	07 09 00 00 08 00 00 00	r9 += 8
+      15:	bf 91 00 00 00 00 00 00	r1 = r9
+      16:	85 00 00 00 5d 00 00 00	call 93
+;     lock_value->value += 1;
+      17:	79 81 00 00 00 00 00 00	r1 = *(u64 *)(r8 + 0)
+      18:	07 01 00 00 01 00 00 00	r1 += 1
+      19:	7b 18 00 00 00 00 00 00	*(u64 *)(r8 + 0) = r1
+;     bpf_spin_unlock(&lock_value->lock);
+      20:	bf 91 00 00 00 00 00 00	r1 = r9
+      21:	85 00 00 00 5e 00 00 00	call 94
+
+00000000000000b0 <LBB0_2>:
+;     __u64 finish_time = bpf_ktime_get_ns();
+      22:	85 00 00 00 05 00 00 00	call 5
+      23:	bf 08 00 00 00 00 00 00	r8 = r0
+      24:	63 7a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r7
+      25:	bf a2 00 00 00 00 00 00	r2 = r10
+;     __u64 finish_time = bpf_ktime_get_ns();
+      26:	07 02 00 00 fc ff ff ff	r2 += -4
+;     struct info *value = bpf_map_lookup_elem(&info_array, &key_cpu);
+      27:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      29:	85 00 00 00 01 00 00 00	call 1
+;     if(!value)
+      30:	15 00 0f 00 00 00 00 00	if r0 == 0 goto +15 <LBB0_4>
+;     new_value.latency = value->latency + (finish_time - arrival_time);
+      31:	1f 68 00 00 00 00 00 00	r8 -= r6
+      32:	79 01 00 00 00 00 00 00	r1 = *(u64 *)(r0 + 0)
+      33:	0f 18 00 00 00 00 00 00	r8 += r1
+      34:	7b 8a e8 ff 00 00 00 00	*(u64 *)(r10 - 24) = r8
+;     new_value.counter = value->counter + 1;
+      35:	79 01 08 00 00 00 00 00	r1 = *(u64 *)(r0 + 8)
+      36:	07 01 00 00 01 00 00 00	r1 += 1
+      37:	7b 1a f0 ff 00 00 00 00	*(u64 *)(r10 - 16) = r1
+      38:	bf a2 00 00 00 00 00 00	r2 = r10
+      39:	07 02 00 00 fc ff ff ff	r2 += -4
+      40:	bf a3 00 00 00 00 00 00	r3 = r10
+      41:	07 03 00 00 e8 ff ff ff	r3 += -24
+;     bpf_map_update_elem(&info_array, &key_cpu, &new_value, BPF_ANY);
+      42:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      44:	b7 04 00 00 00 00 00 00	r4 = 0
+      45:	85 00 00 00 02 00 00 00	call 2
+
+0000000000000170 <LBB0_4>:
+; }
+      46:	b7 00 00 00 01 00 00 00	r0 = 1
+      47:	95 00 00 00 00 00 00 00	exit

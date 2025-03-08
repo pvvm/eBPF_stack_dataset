@@ -1,0 +1,18 @@
+
+ebpf_programs/object/optimized/prog16.bpf.o:	file format elf64-bpf
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+;     __u32 data_end = ctx->data_end;
+       0:	61 12 04 00 00 00 00 00	r2 = *(u32 *)(r1 + 4)
+;     __u32 data_start = ctx->data;
+       1:	61 11 00 00 00 00 00 00	r1 = *(u32 *)(r1 + 0)
+       2:	b7 00 00 00 01 00 00 00	r0 = 1
+; }
+       3:	2d 21 01 00 00 00 00 00	if r1 > r2 goto +1 <LBB0_2>
+       4:	b7 00 00 00 02 00 00 00	r0 = 2
+
+0000000000000028 <LBB0_2>:
+; }
+       5:	95 00 00 00 00 00 00 00	exit

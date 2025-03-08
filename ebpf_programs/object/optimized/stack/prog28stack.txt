@@ -1,0 +1,51 @@
+
+ebpf_programs/object/optimized/prog28.bpf.o:	file format elf64-bpf
+
+Disassembly of section .text:
+
+0000000000000000 <check_helper>:
+; __u8 check_helper(__u32 value, __u16 auxiliar) {
+       0:	67 01 00 00 20 00 00 00	r1 <<= 32
+       1:	77 01 00 00 20 00 00 00	r1 >>= 32
+       2:	b7 00 00 00 01 00 00 00	r0 = 1
+;     if(value > auxiliar)
+       3:	2d 21 01 00 00 00 00 00	if r1 > r2 goto +1 <LBB0_2>
+       4:	b7 00 00 00 00 00 00 00	r0 = 0
+
+0000000000000028 <LBB0_2>:
+; }
+       5:	95 00 00 00 00 00 00 00	exit
+
+0000000000000030 <helping_hand>:
+; __u32 helping_hand(__u32 value, __u16 auxiliar) {
+       6:	bf 10 00 00 00 00 00 00	r0 = r1
+;     value = value + auxiliar;
+       7:	bf 21 00 00 00 00 00 00	r1 = r2
+       8:	0f 01 00 00 00 00 00 00	r1 += r0
+       9:	bf 13 00 00 00 00 00 00	r3 = r1
+      10:	67 03 00 00 20 00 00 00	r3 <<= 32
+      11:	77 03 00 00 20 00 00 00	r3 >>= 32
+      12:	2d 23 01 00 00 00 00 00	if r3 > r2 goto +1 <LBB1_2>
+      13:	bf 10 00 00 00 00 00 00	r0 = r1
+
+0000000000000070 <LBB1_2>:
+; }
+      14:	95 00 00 00 00 00 00 00	exit
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+;     __u32 data_end = ctx->data_end;
+       0:	61 12 04 00 00 00 00 00	r2 = *(u32 *)(r1 + 4)
+;     __u32 data_start = ctx->data;
+       1:	61 11 00 00 00 00 00 00	r1 = *(u32 *)(r1 + 0)
+;     if(data_end > data_start && value) {
+       2:	3d 21 02 00 00 00 00 00	if r1 >= r2 goto +2 <LBB2_2>
+;         function4(value);
+       3:	b7 01 00 00 01 00 00 00	r1 = 1
+       4:	85 10 00 00 ff ff ff ff	call -1
+
+0000000000000028 <LBB2_2>:
+;     return XDP_DROP; // Drop all packets
+       5:	b7 00 00 00 01 00 00 00	r0 = 1
+       6:	95 00 00 00 00 00 00 00	exit

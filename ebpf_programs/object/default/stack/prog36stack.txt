@@ -1,0 +1,55 @@
+
+ebpf_programs/object/default/prog36.bpf.o:	file format elf64-bpf
+
+Disassembly of section .text:
+
+0000000000000000 <multiply_ten>:
+; __u32 multiply_ten(__u32 number) {
+       0:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+;     return number * 10;
+       1:	61 a0 fc ff 00 00 00 00	r0 = *(u32 *)(r10 - 4)
+       2:	27 00 00 00 0a 00 00 00	r0 *= 10
+       3:	95 00 00 00 00 00 00 00	exit
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+; int xdp_prog(struct xdp_md *ctx) {
+       0:	7b 1a f8 ff 00 00 00 00	*(u64 *)(r10 - 8) = r1
+       1:	b7 01 00 00 01 00 00 00	r1 = 1
+;     __u64 value = 1;
+       2:	7b 1a d0 ff 00 00 00 00	*(u64 *)(r10 - 48) = r1
+       3:	7b 1a f0 ff 00 00 00 00	*(u64 *)(r10 - 16) = r1
+       4:	b7 01 00 00 02 00 00 00	r1 = 2
+;     __u8 value1 = 2;
+       5:	73 1a ef ff 00 00 00 00	*(u8 *)(r10 - 17) = r1
+       6:	b7 01 00 00 03 00 00 00	r1 = 3
+;     __u16 value2 = 3;
+       7:	6b 1a ec ff 00 00 00 00	*(u16 *)(r10 - 20) = r1
+       8:	b7 01 00 00 04 00 00 00	r1 = 4
+;     __u8 value3 = 4;
+       9:	73 1a eb ff 00 00 00 00	*(u8 *)(r10 - 21) = r1
+      10:	b7 01 00 00 05 00 00 00	r1 = 5
+;     __u32 value4 = 5;
+      11:	63 1a e4 ff 00 00 00 00	*(u32 *)(r10 - 28) = r1
+;     __u64 total = value + value1 + value2 + value3 + value4;
+      12:	79 a1 f0 ff 00 00 00 00	r1 = *(u64 *)(r10 - 16)
+      13:	71 a2 ef ff 00 00 00 00	r2 = *(u8 *)(r10 - 17)
+      14:	0f 21 00 00 00 00 00 00	r1 += r2
+      15:	69 a2 ec ff 00 00 00 00	r2 = *(u16 *)(r10 - 20)
+      16:	0f 21 00 00 00 00 00 00	r1 += r2
+      17:	71 a2 eb ff 00 00 00 00	r2 = *(u8 *)(r10 - 21)
+      18:	0f 21 00 00 00 00 00 00	r1 += r2
+      19:	61 a2 e4 ff 00 00 00 00	r2 = *(u32 *)(r10 - 28)
+      20:	0f 21 00 00 00 00 00 00	r1 += r2
+      21:	7b 1a d8 ff 00 00 00 00	*(u64 *)(r10 - 40) = r1
+;     total = multiply_ten(total);
+      22:	79 a1 d8 ff 00 00 00 00	r1 = *(u64 *)(r10 - 40)
+      23:	85 10 00 00 ff ff ff ff	call -1
+      24:	bf 01 00 00 00 00 00 00	r1 = r0
+      25:	79 a0 d0 ff 00 00 00 00	r0 = *(u64 *)(r10 - 48)
+      26:	67 01 00 00 20 00 00 00	r1 <<= 32
+      27:	77 01 00 00 20 00 00 00	r1 >>= 32
+      28:	7b 1a d8 ff 00 00 00 00	*(u64 *)(r10 - 40) = r1
+;     return XDP_DROP; // Drop all packets
+      29:	95 00 00 00 00 00 00 00	exit

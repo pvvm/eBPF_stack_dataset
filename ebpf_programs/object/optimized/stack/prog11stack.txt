@@ -1,0 +1,9 @@
+
+ebpf_programs/object/optimized/prog11.bpf.o:	file format elf64-bpf
+
+Disassembly of section xdp:
+
+0000000000000000 <xdp_prog>:
+; }
+       0:	b7 00 00 00 02 00 00 00	r0 = 2
+       1:	95 00 00 00 00 00 00 00	exit

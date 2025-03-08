@@ -1,0 +1,143 @@
+
+ebpf_programs/object/optimized/prog47.bpf.o:	file format elf64-bpf
+
+Disassembly of section .text:
+
+0000000000000000 <lookup_map_of_maps_queue>:
+; __u64 lookup_map_of_maps_queue (int key, __u64 counter/*, int iteration*/) {
+       0:	7b 2a f0 ff 00 00 00 00	*(u64 *)(r10 - 16) = r2
+       1:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+       2:	bf a2 00 00 00 00 00 00	r2 = r10
+       3:	07 02 00 00 fc ff ff ff	r2 += -4
+;     struct inner_map_queue *map = bpf_map_lookup_elem(&outer_map_queue, &key);
+       4:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+       6:	85 00 00 00 01 00 00 00	call 1
+       7:	bf 06 00 00 00 00 00 00	r6 = r0
+       8:	b7 00 00 00 00 00 00 00	r0 = 0
+;     if(!map) {
+       9:	15 06 10 00 00 00 00 00	if r6 == 0 goto +16 <LBB0_4>
+      10:	bf a2 00 00 00 00 00 00	r2 = r10
+      11:	07 02 00 00 e8 ff ff ff	r2 += -24
+;     if(bpf_map_peek_elem(map, &value) < 0) {
+      12:	bf 61 00 00 00 00 00 00	r1 = r6
+      13:	85 00 00 00 59 00 00 00	call 89
+      14:	bf 01 00 00 00 00 00 00	r1 = r0
+      15:	b7 00 00 00 00 00 00 00	r0 = 0
+      16:	6d 10 09 00 00 00 00 00	if r0 s> r1 goto +9 <LBB0_4>
+      17:	bf a2 00 00 00 00 00 00	r2 = r10
+      18:	07 02 00 00 f0 ff ff ff	r2 += -16
+;     if(bpf_map_push_elem(map, &counter, BPF_EXIST) < 0) {
+      19:	bf 61 00 00 00 00 00 00	r1 = r6
+      20:	b7 03 00 00 02 00 00 00	r3 = 2
+      21:	85 00 00 00 57 00 00 00	call 87
+      22:	bf 01 00 00 00 00 00 00	r1 = r0
+      23:	b7 00 00 00 00 00 00 00	r0 = 0
+      24:	6d 10 01 00 00 00 00 00	if r0 s> r1 goto +1 <LBB0_4>
+;     return counter;
+      25:	79 a0 f0 ff 00 00 00 00	r0 = *(u64 *)(r10 - 16)
+
+00000000000000d0 <LBB0_4>:
+; }
+      26:	95 00 00 00 00 00 00 00	exit
+
+00000000000000d8 <get_counter>:
+; __u64 get_counter (int key_cpu) {
+      27:	63 1a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r1
+      28:	bf a2 00 00 00 00 00 00	r2 = r10
+      29:	07 02 00 00 fc ff ff ff	r2 += -4
+;     struct info *value = bpf_map_lookup_elem(&info_array, &key_cpu);
+      30:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      32:	85 00 00 00 01 00 00 00	call 1
+      33:	bf 01 00 00 00 00 00 00	r1 = r0
+      34:	b7 00 00 00 00 00 00 00	r0 = 0
+;     if(!value)
+      35:	15 01 01 00 00 00 00 00	if r1 == 0 goto +1 <LBB1_2>
+;     return value->counter;
+      36:	79 10 08 00 00 00 00 00	r0 = *(u64 *)(r1 + 8)
+
+0000000000000128 <LBB1_2>:
+; }
+      37:	95 00 00 00 00 00 00 00	exit
+
+Disassembly of section xdp:
+
+0000000000000000 <map_of_maps_queue>:
+;     __u32 cpu = bpf_get_smp_processor_id();
+       0:	85 00 00 00 08 00 00 00	call 8
+       1:	bf 06 00 00 00 00 00 00	r6 = r0
+       2:	63 6a e0 ff 00 00 00 00	*(u32 *)(r10 - 32) = r6
+       3:	bf a2 00 00 00 00 00 00	r2 = r10
+       4:	07 02 00 00 e0 ff ff ff	r2 += -32
+;     struct info *value = bpf_map_lookup_elem(&info_array, &key_cpu);
+       5:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+       7:	85 00 00 00 01 00 00 00	call 1
+       8:	b7 08 00 00 00 00 00 00	r8 = 0
+;     if(!value)
+       9:	15 00 01 00 00 00 00 00	if r0 == 0 goto +1 <LBB2_2>
+;     return value->counter;
+      10:	79 08 08 00 00 00 00 00	r8 = *(u64 *)(r0 + 8)
+
+0000000000000058 <LBB2_2>:
+;     __u64 arrival_time = bpf_ktime_get_ns();
+      11:	85 00 00 00 05 00 00 00	call 5
+      12:	bf 07 00 00 00 00 00 00	r7 = r0
+      13:	63 6a fc ff 00 00 00 00	*(u32 *)(r10 - 4) = r6
+      14:	7b 8a e0 ff 00 00 00 00	*(u64 *)(r10 - 32) = r8
+      15:	bf a2 00 00 00 00 00 00	r2 = r10
+      16:	07 02 00 00 fc ff ff ff	r2 += -4
+;     struct inner_map_queue *map = bpf_map_lookup_elem(&outer_map_queue, &key);
+      17:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      19:	85 00 00 00 01 00 00 00	call 1
+      20:	bf 08 00 00 00 00 00 00	r8 = r0
+;     if(!map) {
+      21:	15 08 0b 00 00 00 00 00	if r8 == 0 goto +11 <LBB2_5>
+      22:	bf a2 00 00 00 00 00 00	r2 = r10
+      23:	07 02 00 00 f0 ff ff ff	r2 += -16
+;     if(bpf_map_peek_elem(map, &value) < 0) {
+      24:	bf 81 00 00 00 00 00 00	r1 = r8
+      25:	85 00 00 00 59 00 00 00	call 89
+      26:	b7 01 00 00 00 00 00 00	r1 = 0
+;     if(bpf_map_peek_elem(map, &value) < 0) {
+      27:	6d 01 05 00 00 00 00 00	if r1 s> r0 goto +5 <LBB2_5>
+      28:	bf a2 00 00 00 00 00 00	r2 = r10
+      29:	07 02 00 00 e0 ff ff ff	r2 += -32
+;     if(bpf_map_push_elem(map, &counter, BPF_EXIST) < 0) {
+      30:	bf 81 00 00 00 00 00 00	r1 = r8
+      31:	b7 03 00 00 02 00 00 00	r3 = 2
+      32:	85 00 00 00 57 00 00 00	call 87
+
+0000000000000108 <LBB2_5>:
+;     __u64 finish_time = bpf_ktime_get_ns();
+      33:	85 00 00 00 05 00 00 00	call 5
+      34:	bf 08 00 00 00 00 00 00	r8 = r0
+      35:	63 6a f0 ff 00 00 00 00	*(u32 *)(r10 - 16) = r6
+      36:	bf a2 00 00 00 00 00 00	r2 = r10
+;     __u64 finish_time = bpf_ktime_get_ns();
+      37:	07 02 00 00 f0 ff ff ff	r2 += -16
+;     struct info *value = bpf_map_lookup_elem(&info_array, &key_cpu);
+      38:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      40:	85 00 00 00 01 00 00 00	call 1
+;     if(!value)
+      41:	15 00 0f 00 00 00 00 00	if r0 == 0 goto +15 <LBB2_7>
+;     new_value.latency = value->latency + (finish_time - arrival_time);
+      42:	1f 78 00 00 00 00 00 00	r8 -= r7
+      43:	79 01 00 00 00 00 00 00	r1 = *(u64 *)(r0 + 0)
+      44:	0f 18 00 00 00 00 00 00	r8 += r1
+      45:	7b 8a e0 ff 00 00 00 00	*(u64 *)(r10 - 32) = r8
+;     new_value.counter = value->counter + 1;
+      46:	79 01 08 00 00 00 00 00	r1 = *(u64 *)(r0 + 8)
+      47:	07 01 00 00 01 00 00 00	r1 += 1
+      48:	7b 1a e8 ff 00 00 00 00	*(u64 *)(r10 - 24) = r1
+      49:	bf a2 00 00 00 00 00 00	r2 = r10
+      50:	07 02 00 00 f0 ff ff ff	r2 += -16
+      51:	bf a3 00 00 00 00 00 00	r3 = r10
+      52:	07 03 00 00 e0 ff ff ff	r3 += -32
+;     bpf_map_update_elem(&info_array, &key_cpu, &new_value, BPF_ANY);
+      53:	18 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00	r1 = 0 ll
+      55:	b7 04 00 00 00 00 00 00	r4 = 0
+      56:	85 00 00 00 02 00 00 00	call 2
+
+00000000000001c8 <LBB2_7>:
+; }
+      57:	b7 00 00 00 01 00 00 00	r0 = 1
+      58:	95 00 00 00 00 00 00 00	exit
