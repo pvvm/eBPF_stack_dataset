@@ -1,0 +1,7 @@
+graph TD
+    A[ <b> xdp_prog </b>
+    <br> ctx -> 8 <br>
+    index -> 4 + 4 <br>
+    pkt_count -> 8 <br>
+    return -> 8 <br>
+    Total: 32 ]

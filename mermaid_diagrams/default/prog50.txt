@@ -1,0 +1,35 @@
+graph TD
+    A[ <b> testing_stack </b>
+    <br> ctx -> 8 <br>
+    value -> 4 <br>
+    Total: 12 ] --> B
+    A --> E
+
+    B[ <b> function1 </b>
+    <br> value -> 4 <br>
+    Total: 4] --> C
+
+    C[ <b> function2 </b>
+    <br> value -> 4 <br>
+    roedor -> 2 <br>
+    Total: 6] --> D
+
+    D[ <b> function3 </b>
+    <br> value -> 4 <br>
+    Total: 4]
+
+    E[ <b> function4 </b>
+    <br> value -> 4 <br>
+    Total: 4] --> F
+
+    F[ <b> function5 </b>
+    <br> value -> 4 <br>
+    Total: 4] --> G
+
+    G[ <b> function6 </b>
+    <br> value -> 4 <br>
+    Total: 4] --> H
+
+    H[ <b> function7 </b>
+    <br> value -> 4 <br>
+    Total: 4] --> B

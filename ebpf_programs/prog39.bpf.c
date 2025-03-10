@@ -45,7 +45,7 @@ nh->pos = ip6h + 1;
 return ip6h->nexthdr;
 }
 
-static __always_inline int parse_icmp6hdr(struct hdr_cursor *nh,
+int parse_icmp6hdr(struct hdr_cursor *nh,
 	void *data_end,
 	struct icmp6hdr **icmp6hdr)
 {

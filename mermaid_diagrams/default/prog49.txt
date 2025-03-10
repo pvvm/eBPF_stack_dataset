@@ -1,0 +1,37 @@
+graph TD
+    A[ <b> testing_stack </b>
+    <br> ctx -> 8 <br>
+    var1 -> 8 <br>
+    Total: 16 ] --> B
+    A --> C
+
+    B[ <b> test_function </b>
+    <br> var1 -> 4 + 4 <br>
+    var0 -> 16 <br>
+    Total: 24]
+
+    C[ <b> test_function2 </b>
+    <br> var2 -> 1 <br>
+    var3 -> 1 <br>
+    var4 -> 2 <br>
+    key -> 4 <br>
+    teste -> 8 <br>
+    key1 -> 4 + 4 <br>
+    teste1 -> 8 <br>
+    key2 -> 4 + 4 <br>
+    teste2 -> 8 <br>
+    key3 -> 4 + 4 <br>
+    teste3 -> 8 <br>
+    key4 -> 4 + 4 <br>
+    teste4 -> 8 <br>
+    key5 -> 4 + 4 <br>
+    teste5 -> 8 <br>
+    key6 -> 4 + 4 <br>
+    teste6 -> 8 <br>
+    value -> 4 <br>
+    Total: 116] --> D
+
+    D[ <b> test_function3 </b>
+    <br> var2 -> 4 <br>
+    var3 -> 4 <br>
+    Total: 8]

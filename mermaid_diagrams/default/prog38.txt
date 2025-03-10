@@ -4,11 +4,12 @@ graph TD
     data_end -> 8 <br>
     data -> 8 <br>
     eth -> 8 <br>
-    action -> 4 + 4 <br>
     nh -> 8 <br>
-    nh_type -> 4 <br>
-    return -> 4 <br>
-    Total: 60 ] --> B
+    nh_type -> 4 + 4 <br>
+    ip6h -> 8 <br>
+    return -> 8 <br>
+    Total: 64 ] --> B
+    A --> C
 
     B[ <b> parse_ethhdr </b>
     <br> nh -> 8 <br>
@@ -17,3 +18,11 @@ graph TD
     eth -> 8 <br>
     hdrsize -> 4 <br>
     Total: 44]
+
+    C[ <b> parse_ip6hdr </b>
+    <br> nh -> 8 <br>
+    data_end -> 8 <br>
+    ip6hdr -> 8 <br>
+    ip6h -> 8 <br>
+    return -> 8 <br>
+    Total: 40]

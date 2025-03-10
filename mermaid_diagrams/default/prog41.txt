@@ -1,0 +1,39 @@
+graph TD
+    A[ <b> xdp_prog </b>
+    <br> ctx -> 8 <br>
+    data_end -> 8 <br>
+    data -> 8 <br>
+    eth -> 8 <br>
+    nh -> 8 <br>
+    nh_type -> 4 + 4 <br>
+    iph -> 8 <br>
+    icmph -> 8 <br>
+    return -> 8 <br>
+    Total: 72 ] --> B
+    A --> C
+    A --> D
+
+    B[ <b> parse_ethhdr </b>
+    <br> nh -> 8 <br>
+    data_end -> 8 <br>
+    ethhdr -> 8 <br>
+    eth -> 8 <br>
+    hdrsize -> 4 <br>
+    Total: 44]
+
+    C[ <b> parse_iphdr </b>
+    <br> nh -> 8 <br>
+    data_end -> 8 <br>
+    iphdr -> 8 <br>
+    iph -> 8 <br>
+    hdrsize -> 4 <br>
+    return -> 8 <br>
+    Total: 44]
+
+    D[ <b> parse_icmphdr </b>
+    <br> nh -> 8 <br>
+    data_end -> 8 <br>
+    icmphdr -> 8 <br>
+    icmph -> 8 <br>
+    return -> 8 <br>
+    Total: 40]

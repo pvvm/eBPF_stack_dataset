@@ -1,0 +1,25 @@
+graph TD
+    A[ <b> xdp_prog </b>
+    <br> ctx -> 8 <br>
+    cpu -> 4 + 4 <br>
+    arrival_time -> 8 <br>
+    finish_time -> 8 <br>
+    Error while looking up timer map -> 40 <br>
+    Total: 72 ] --> B
+    A --> C
+
+    B[ <b> lookup_map </b>
+    <br> key -> 4 <br>
+    map_pointer -> 8 <br>
+    value -> 8 <br>
+    return -> 4 <br>
+    Total: 24]
+
+    C[ <b> update_info </b>
+    <br> arrival_time -> 8 <br>
+    finish_time -> 8 <br>
+    key_cpu -> 4 + 4 <br>
+    value -> 8 <br>
+    new_value -> 16 <br>
+    return -> 8 <br>
+    Total: 56]

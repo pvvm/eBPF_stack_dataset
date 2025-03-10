@@ -48,6 +48,26 @@ Disassembly of section .text:
 ; }
       24:	95 00 00 00 00 00 00 00	exit
 
+00000000000000c8 <parse_icmp6hdr>:
+; {
+      25:	18 00 00 00 ff ff ff ff 00 00 00 00 00 00 00 00	r0 = 4294967295 ll
+; struct icmp6hdr *icmp6h = nh->pos;
+      27:	79 14 00 00 00 00 00 00	r4 = *(u64 *)(r1 + 0)
+; if (icmp6h + 1 > data_end)
+      28:	bf 45 00 00 00 00 00 00	r5 = r4
+      29:	07 05 00 00 08 00 00 00	r5 += 8
+      30:	2d 25 03 00 00 00 00 00	if r5 > r2 goto +3 <LBB2_2>
+; nh->pos   = icmp6h + 1;
+      31:	7b 51 00 00 00 00 00 00	*(u64 *)(r1 + 0) = r5
+; *icmp6hdr = icmp6h;
+      32:	7b 43 00 00 00 00 00 00	*(u64 *)(r3 + 0) = r4
+; return icmp6h->icmp6_type;
+      33:	71 40 00 00 00 00 00 00	r0 = *(u8 *)(r4 + 0)
+
+0000000000000110 <LBB2_2>:
+; }
+      34:	95 00 00 00 00 00 00 00	exit
+
 Disassembly of section xdp:
 
 0000000000000000 <xdp_prog>:
