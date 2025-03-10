@@ -26,7 +26,7 @@ int xdp_prog(struct xdp_md *ctx) {
     __u32 data_start = ctx->data;
     __u32 data_end = ctx->data_end;
     if(data_end > data_start && value) {
-        function4(value);
+        check_helper(value, value - 1);
     }
     return XDP_DROP; // Drop all packets
 }

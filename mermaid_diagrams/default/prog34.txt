@@ -1,0 +1,24 @@
+graph TD
+    A[ <b> xdp_prog </b>
+    <br> ctx -> 8 <br>
+    data_start -> 4 <br>
+    data_end -> 4 <br>
+    key -> 4 + 4 <br>
+    value -> 8 <br>
+    value2 -> 8 <br>
+    Total: 40 ] --> B
+
+    B[ <b> updating_map </b>
+    <br> value -> 8 <br>
+    value2 -> 8 <br>
+    Total: 16] --> C
+    B --> D
+
+    C[ <b> helping_func </b>
+    <br> valiable -> 4 <br>
+    return -> 4 <br>
+    Total: 8]
+
+    D[ <b> second_func </b>
+    <br> number -> 4 <br>
+    Total: 4]

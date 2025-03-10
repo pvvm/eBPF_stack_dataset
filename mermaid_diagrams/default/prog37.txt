@@ -1,0 +1,14 @@
+graph TD
+    A[ <b> xdp_prog </b>
+    <br> ctx -> 8 <br>
+    data_end -> 8 <br>
+    data -> 8 <br>
+    value2 -> 2 <br>
+    value3 -> 1 + 3 <br>
+    value4 -> 4 + 4 <br>
+    total -> 8 <br>
+    Total: 40 ] --> B
+
+    B[ <b> multiply_ten </b>
+    <br> number -> 4 <br>
+    Total: 4]

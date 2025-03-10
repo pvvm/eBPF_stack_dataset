@@ -14,8 +14,7 @@ struct hdr_cursor {
 	void *pos;
 };
 
-
-static __always_inline int parse_ethhdr(struct hdr_cursor *nh,
+int parse_ethhdr(struct hdr_cursor *nh,
     void *data_end,
     struct ethhdr **ethhdr)
 {
@@ -31,7 +30,7 @@ nh->pos += hdrsize;
 return eth->h_proto;
 }
 
-static __always_inline int parse_ip6hdr(struct hdr_cursor *nh,
+int parse_ip6hdr(struct hdr_cursor *nh,
 	void *data_end,
 	struct ipv6hdr **ip6hdr)
 {

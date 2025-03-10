@@ -1,6 +1,33 @@
 
 ebpf_programs/object/optimized/prog37.bpf.o:	file format elf64-bpf
 
+Disassembly of section .text:
+
+0000000000000000 <parse_ethhdr>:
+; {
+       0:	18 00 00 00 ff ff ff ff 00 00 00 00 00 00 00 00	r0 = 4294967295 ll
+; struct ethhdr *eth = nh->pos;
+       2:	79 14 00 00 00 00 00 00	r4 = *(u64 *)(r1 + 0)
+; if (nh->pos + 1 > data_end)
+       3:	bf 45 00 00 00 00 00 00	r5 = r4
+       4:	07 05 00 00 01 00 00 00	r5 += 1
+       5:	2d 25 08 00 00 00 00 00	if r5 > r2 goto +8 <LBB0_2>
+; nh->pos += hdrsize;
+       6:	bf 42 00 00 00 00 00 00	r2 = r4
+       7:	07 02 00 00 0e 00 00 00	r2 += 14
+       8:	7b 21 00 00 00 00 00 00	*(u64 *)(r1 + 0) = r2
+; *ethhdr = eth;
+       9:	7b 43 00 00 00 00 00 00	*(u64 *)(r3 + 0) = r4
+; return eth->h_proto; /* network-byte-order */
+      10:	71 41 0c 00 00 00 00 00	r1 = *(u8 *)(r4 + 12)
+      11:	71 40 0d 00 00 00 00 00	r0 = *(u8 *)(r4 + 13)
+      12:	67 00 00 00 08 00 00 00	r0 <<= 8
+      13:	4f 10 00 00 00 00 00 00	r0 |= r1
+
+0000000000000070 <LBB0_2>:
+; }
+      14:	95 00 00 00 00 00 00 00	exit
+
 Disassembly of section xdp:
 
 0000000000000000 <xdp_prog>:

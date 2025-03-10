@@ -34,7 +34,7 @@ struct {
     __uint(max_entries, MAX_NUMBER_CORES);
 } info_array SEC(".maps");
 
-static __always_inline int update_info (__u64 arrival_time, __u64 finish_time, int key_cpu) {
+int update_info (__u64 arrival_time, __u64 finish_time, int key_cpu) {
     struct info *value = bpf_map_lookup_elem(&info_array, &key_cpu);
     if(!value)
         return 0;
@@ -48,7 +48,7 @@ static __always_inline int update_info (__u64 arrival_time, __u64 finish_time, i
 }
 
 
-static __always_inline int lookup_lock_map (int key) {
+int lookup_lock_map (int key) {
 
     struct map_locked_value *lock_value = bpf_map_lookup_elem(&lock_array, &key);
 

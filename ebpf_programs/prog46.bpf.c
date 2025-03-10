@@ -29,7 +29,7 @@ struct {
     __uint(max_entries, MAX_NUMBER_CORES);
 } info_array SEC(".maps");
 
-static __always_inline int update_info (__u64 arrival_time, __u64 finish_time, int key_cpu) {
+int update_info (__u64 arrival_time, __u64 finish_time, int key_cpu) {
     struct info *value = bpf_map_lookup_elem(&info_array, &key_cpu);
     if(!value)
         return 0;
@@ -43,7 +43,7 @@ static __always_inline int update_info (__u64 arrival_time, __u64 finish_time, i
 }
 
 
-static __always_inline int lookup_map (int key, void * map_pointer) {
+int lookup_map (int key, void * map_pointer) {
     __u64 * value = bpf_map_lookup_elem(map_pointer, &key);
 
     if(!value)
@@ -54,7 +54,7 @@ static __always_inline int lookup_map (int key, void * map_pointer) {
     return 1;
 }
 
-static __always_inline __u32 get_and_check_cpu_id() {
+__u32 get_and_check_cpu_id() {
     __u32 cpu = bpf_get_smp_processor_id();
     if(cpu >= 10)
         cpu -= 10;

@@ -1,0 +1,18 @@
+graph TD
+    A[ <b> xdp_prog </b>
+    <br> ctx -> 8 <br>
+    value -> 4 <br>
+    Total: 12 ] --> B
+
+    B[ <b> function1 </b> 
+    <br> value -> 4 <br>
+    Total: 4] --> C
+
+    C[ <b> function2 </b> 
+    <br> value -> 4 <br>
+    roedor -> 2 <br>
+    Total: 6] --> D
+
+    D[ <b> function3 </b> 
+    <br> value -> 4 <br>
+    Total: 4]

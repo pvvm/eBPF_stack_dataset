@@ -9,7 +9,7 @@ struct hdr_cursor {
 };
 
 
-static __always_inline int parse_ethhdr(struct hdr_cursor *nh,
+int parse_ethhdr(struct hdr_cursor *nh,
     void *data_end,
     struct ethhdr **ethhdr)
 {

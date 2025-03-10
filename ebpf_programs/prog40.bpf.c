@@ -15,7 +15,7 @@ struct hdr_cursor {
 };
 
 
-static __always_inline int parse_ethhdr(struct hdr_cursor *nh,
+int parse_ethhdr(struct hdr_cursor *nh,
     void *data_end,
     struct ethhdr **ethhdr)
 {
@@ -32,7 +32,7 @@ return eth->h_proto;
 }
 
 
-static __always_inline int parse_iphdr(struct hdr_cursor *nh,
+int parse_iphdr(struct hdr_cursor *nh,
 	void *data_end,
 	struct iphdr **iphdr)
 {

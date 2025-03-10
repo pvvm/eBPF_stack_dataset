@@ -1,0 +1,21 @@
+graph TD
+    A[ <b> xdp_prog </b>
+    <br> ctx -> 8 <br>
+    value -> 4 <br>
+    data_start -> 4 <br>
+    data_end -> 4 <br>
+    Total: 20 ] --> B
+    A --> C
+
+    B[ <b> helping_hand </b> 
+    <br> value -> 4 <br>
+    auxiliar -> 2 <br>
+    returned -> 1 <br>
+    return -> 4 <br>
+    Total: 11] --> C
+
+    C[ <b> check_helper </b> 
+    <br> value -> 4 <br>
+    auxiliar -> 2 <br>
+    return -> 1 <br>
+    Total: 7]
